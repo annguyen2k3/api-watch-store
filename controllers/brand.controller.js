@@ -1,6 +1,6 @@
 const { Op } = require("sequelize");
-const Brand = require("../../models/brand.model");
-const Watch = require("../../models/watch.model");
+const Brand = require("../models/brand.model");
+const Watch = require("../models/watch.model");
 
 // [GET] /brand/list
 module.exports.getList = async (req, res) => {

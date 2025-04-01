@@ -9,15 +9,13 @@ sequelize;
 
 app.use(bodyParser.json());
 
-const routeClient = require("./routers/client/index.route");
-const routeAdmin = require("./routers/admin/index.route");
+const router = require("./routers/index.route");
 
 const port = process.env.PORT || 4000;
 
 app.use(cors());
 
-routeClient(app);
-routeAdmin(app);
+router(app);
 
 app.listen(port, () => {
     console.log(`Server API listening on port ${port}`);

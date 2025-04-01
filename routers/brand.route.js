@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
-const controller = require("../../controllers/admin/brand.controller");
+const controller = require("../controllers/brand.controller");
 
 router.get("/list", controller.getList);
 

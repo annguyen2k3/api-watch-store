@@ -2,8 +2,8 @@ const express = require("express");
 const router = express.Router();
 const multer = require("multer");
 
-const controller = require("../../controllers/admin/watch.controller");
-const uploadCloud = require("../../middlewares/uploadCloud.middleware");
+const controller = require("../controllers/watch.controller");
+const uploadCloud = require("../middlewares/uploadCloud.middleware");
 
 const upload = multer({
     storage: multer.memoryStorage(),

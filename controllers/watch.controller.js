@@ -1,9 +1,9 @@
 const { Op } = require("sequelize");
-const Watch = require("../../models/watch.model");
-const Brand = require("../../models/brand.model");
-const Image = require("../../models/image.model");
+const Watch = require("../models/watch.model");
+const Brand = require("../models/brand.model");
+const Image = require("../models/image.model");
 
-const { deleteImgCloud } = require("../../helpers/deleteImgCloud.helper");
+const { deleteImgCloud } = require("../helpers/deleteImgCloud.helper");
 
 //  [GET] /watch/list
 module.exports.getList = async (req, res) => {
