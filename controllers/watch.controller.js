@@ -32,6 +32,21 @@ module.exports.getList = async (req, res) => {
                 if (brand) {
                     item.brand_name = brand.brand_name;
                 }
+
+                const images = await Image.findAll({
+                    where: {
+                        watches_id: item.id,
+                    },
+                    raw: true,
+                });
+
+                item.images = [];
+
+                if (images.length > 0) {
+                    images.forEach((img) => {
+                        item.images.push(img.path_image);
+                    });
+                }
             })
         );
 
@@ -75,6 +90,21 @@ module.exports.detail = async (req, res) => {
         });
 
         product.brand_name = brand.brand_name;
+
+        const images = await Image.findAll({
+            where: {
+                watches_id: product.id,
+            },
+            raw: true,
+        });
+
+        product.images = [];
+
+        if (images.length > 0) {
+            images.forEach((img) => {
+                product.images.push(img.path_image);
+            });
+        }
 
         res.status(200).json({
             code: 200,
