@@ -186,14 +186,16 @@ module.exports.create = async (req, res) => {
             quantity,
         });
 
-        // Gán URL ảnh mới
+        // Create images with proper async handling
         if (images && images.length > 0) {
-            images.forEach(async (image) => {
-                await Image.create({
-                    watches_id: product.dataValues.id,
-                    path_image: image,
-                });
-            });
+            await Promise.all(
+                images.map((image) =>
+                    Image.create({
+                        watches_id: product.dataValues.id,
+                        path_image: image,
+                    })
+                )
+            );
         }
 
         res.status(201).json({
