@@ -292,7 +292,7 @@ module.exports.update = async (req, res) => {
         }
         // End Check Status
 
-        if (price < 0 || discount < 0 || discount > 1 || quantity < 0) {
+        if (price < 0 || discount < 0 || quantity < 0) {
             res.status(422).json({
                 code: 422,
                 message: "Data Invalid",
