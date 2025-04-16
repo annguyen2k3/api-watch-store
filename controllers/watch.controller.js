@@ -190,7 +190,7 @@ module.exports.create = async (req, res) => {
         if (images && images.length > 0) {
             images.forEach(async (image) => {
                 await Image.create({
-                    watches_id: product.id,
+                    watches_id: product.dataValues.id,
                     path_image: image,
                 });
             });
