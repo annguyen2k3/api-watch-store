@@ -9,7 +9,8 @@ const { generateToken } = require("../helpers/generateString");
 // [POST] /auth/register
 module.exports.register = async (req, res) => {
     try {
-        const { email, password, user_name, phone, address } = req.body;
+        const { email, password, confirmPassword, user_name, phone, address } =
+            req.body;
 
         // kiểm tra email
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -40,6 +41,14 @@ module.exports.register = async (req, res) => {
             res.status(422).json({
                 code: 422,
                 message: "Mật khẩu phải có ít nhất 6 ký tự",
+            });
+            return;
+        }
+
+        if (password !== confirmPassword) {
+            res.status(422).json({
+                code: 422,
+                message: "Mật khẩu không trùng khớp",
             });
             return;
         }
