@@ -73,6 +73,20 @@ module.exports.register = async (req, res) => {
             });
             return;
         }
+
+        const phoneExist = await User.findOne({
+            where: {
+                phone: phone,
+            },
+        });
+        if (phoneExist) {
+            res.status(422).json({
+                code: 422,
+                message: "Số điện thoại đã tồn tại",
+            });
+            return;
+        }
+
         // Hết kiểm tra phone
 
         // kiểm tra address
