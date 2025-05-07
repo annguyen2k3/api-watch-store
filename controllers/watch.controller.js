@@ -395,3 +395,61 @@ module.exports.delete = async (req, res) => {
         });
     }
 };
+
+// [GET] /watch/search?keyword=abc
+module.exports.search = async (req, res) => {
+    try {
+        const keyword = req.query.keyword;
+
+        const watches = await Watch.findAll({
+            where: {
+                product_name: {
+                    [Op.like]: `%${keyword}%`,
+                },
+                status: 1,
+            },
+            raw: true,
+        });
+
+        await Promise.all(
+            watches.map(async (item) => {
+                const brand = await Brand.findOne({
+                    where: {
+                        id: item.brand_id,
+                    },
+                    raw: true,
+                });
+                if (brand) {
+                    item.brand_name = brand.brand_name;
+                }
+
+                const images = await Image.findAll({
+                    where: {
+                        watches_id: item.id,
+                    },
+                    raw: true,
+                });
+
+                item.images = [];
+
+                if (images.length > 0) {
+                    images.forEach((img) => {
+                        item.images.push(img.path_image);
+                    });
+                }
+            })
+        );
+
+        res.status(200).json({
+            code: 200,
+            message: "Get Success",
+            watches,
+        });
+    } catch (error) {
+        console.log("Error controller search watch: ", error);
+        res.status(500).json({
+            code: 500,
+            message: "Error internal server: " + error.message,
+        });
+    }
+};
