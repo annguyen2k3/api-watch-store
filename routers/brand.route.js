@@ -9,4 +9,6 @@ router.post("/create", controller.create);
 
 router.put("/update/:id", controller.update);
 
+router.delete("/delete/:id", controller.deleteBrand);
+
 module.exports = router;

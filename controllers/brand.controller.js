@@ -169,3 +169,61 @@ module.exports.update = async (req, res) => {
         });
     }
 };
+
+//[DELETE] /brand/delete/:id
+module.exports.deleteBrand = async (req, res) => {
+    try {
+        const id = req.params.id;
+
+        // Check brand not exits
+        const brand = await Brand.findOne({
+            where: {
+                id: id,
+            },
+            raw: true,
+        });
+
+        if (!brand) {
+            res.status(422).json({
+                code: 422,
+                message: "Id brand not exist",
+            });
+            return;
+        }
+        // End Check brand not exits
+
+        // Check watch with brand
+        const checkWatchBrand = await Watch.findOne({
+            where: {
+                brand_id: id,
+            },
+            raw: true,
+        });
+
+        if (checkWatchBrand) {
+            res.status(422).json({
+                code: 422,
+                message: "Brand is using in watch",
+            });
+            return;
+        }
+        // End Check watch with brand
+
+        await Brand.destroy({
+            where: {
+                id: id,
+            },
+        });
+
+        res.status(200).json({
+            code: 200,
+            message: "Delete Success",
+        });
+    } catch (error) {
+        console.log("Error controller delete brand: ", error);
+        res.status(500).json({
+            code: 500,
+            message: "Error internal server: " + error.message,
+        });
+    }
+};
